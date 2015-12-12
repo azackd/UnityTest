@@ -10,16 +10,22 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
     class BattleModel
     {
         public List<BaseCharacter> Characters;
-        public List<IMonster> Monsters;
+        public List<BaseMonster> Monsters;
 
-        public List<ICombatEntity> CombatEntities => Characters.Cast<ICombatEntity>().Union(Monsters.Cast<ICombatEntity>()).ToList();
+        public List<ICombatEntity> CombatEntities
+        {
+            get
+            {
+                return Characters.Cast<ICombatEntity>().Union(Monsters.Cast<ICombatEntity>()).ToList();
+            }
+        } 
 
         public ICombatEntity CurrentTurnEntity;
 
         public BattleModel()
         {
             Characters = new List<BaseCharacter>();
-            Monsters = new List<IMonster>();
+            Monsters = new List<BaseMonster>();
         }
 
         public ICombatEntity GetNextTurnEntity()

@@ -88,11 +88,18 @@
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\ICombatEntity.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterFighter.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\BaseCharacter.cs" />
-    <Compile Include="Assets\TwoButtonRPGEngine\Enemies\IMonster.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageResult.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\BaseDamageStrategy.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\MagicImmuneBaseDamageStrategy.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Enemies\BaseMonster.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Enemies\MonsterSlime.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\AbilityDamageEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\AbilityHealEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\BaseEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\WaitedEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\NextEntityTurnEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageSource.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Helpers\VarianceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

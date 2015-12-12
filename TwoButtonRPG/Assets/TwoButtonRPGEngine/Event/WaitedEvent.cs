@@ -6,17 +6,17 @@ using Assets.TwoButtonRPGEngine.Battle_Queue;
 
 namespace Assets.TwoButtonRPGEngine.Event
 {
-    class NextEntityTurnEvent : BaseEvent
+    class WaitedEvent : BaseEvent
     {
-        public NextEntityTurnEvent(ICombatEntity source)
-            : base((int)EventID.NextEntityTurnEventId, "NextEntityTurnEvent", source, null, source.IsPlayerControlled)
+        public WaitedEvent(ICombatEntity source)
+            : base((int)EventID.WaitedEventId, "WaitedEvent", source, null, source.IsPlayerControlled)
         {
             
         }
 
         public override void ResolveEvent(out string message)
         {
-            message = String.Format("{0}'s Turn!", SourceEntity.PublicName);
+            message = String.Format("{0} gets ready!", SourceEntity.PublicName);
         }
     }
 }

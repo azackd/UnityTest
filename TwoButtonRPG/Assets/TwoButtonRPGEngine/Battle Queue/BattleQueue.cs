@@ -27,7 +27,7 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
 
                 if (!nextTurnEntity.IsPlayerControlled)
                 {
-                    CombatEventQueue.Add(nextTurnEntity.GetAction(Battle));
+                    CombatEventQueue.AddRange(nextTurnEntity.GetAction(Battle));
                 }
             }
 

@@ -9,11 +9,12 @@ namespace Assets.TwoButtonRPGEngine.Event
 {
     abstract class BaseEvent
     {
-        public enum EventIDs : int
+        public enum EventID
         {
             NextEntityTurnEventId = 1,
+            WaitedEventId = 2,
             AbilityDamageEventId = 100,
-            AbilityHealEventId = 101
+            AbilityHealEventId = 101,
         }
 
         public int EventId { get; private set; }

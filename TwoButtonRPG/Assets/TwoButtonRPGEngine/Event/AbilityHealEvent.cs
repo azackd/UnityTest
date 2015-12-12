@@ -12,7 +12,7 @@ namespace Assets.TwoButtonRPGEngine.Event
         public int Healing { get; set; }
 
         public AbilityHealEvent(ICombatEntity source, ICombatEntity target, int damage)
-            : base((int)BaseEvent.EventIDs.AbilityHealEventId, "AbilityHealEvent", source, target)
+            : base((int)EventID.AbilityHealEventId, "AbilityHealEvent", source, target)
         {
             Healing = damage;
         }
@@ -20,7 +20,7 @@ namespace Assets.TwoButtonRPGEngine.Event
         public override void ResolveEvent(out string message) 
         {
             TargetEntity.Hp -= Healing;
-            message = $"{TargetEntity.PublicName} healed {Healing} damage!";
+            message = string.Format("{0} healed {1} damage!", TargetEntity.PublicName, Healing);
         }
     }
 }

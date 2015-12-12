@@ -7,18 +7,17 @@ using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using JetBrains.Annotations;
 
-namespace Assets.TwoButtonRPGEngine.Characters
+namespace Assets.TwoButtonRPGEngine.Enemies
 {
-    abstract class BaseCharacter : ICombatEntity
+    abstract class BaseMonster : ICombatEntity
     {
-
         private static int _currentCharacterId = 0;
         public int EntityId { get; set; }
         public string EngineName { get; set; }
         public string PublicName { get; set; }
         public bool IsPlayerControlled { get; private set; }
 
-        public BaseCharacter(string engineName, string publicName, int hp, int defense, int speed)
+        public BaseMonster(string engineName, string publicName, int hp, int defense, int speed)
         {
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
@@ -33,22 +32,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
             CurrentTimer = 0;
         }
 
-        public List<BaseEvent> GetAction(BattleModel battle)
-        {
-            throw new NotImplementedException();
-        }
-
-        // Press Button 1
-        public abstract List<BaseEvent> UseAbility1(BattleModel battle);
-
-        // Hold Button 1
-        public abstract List<BaseEvent> UseAbility2(BattleModel battle);
-
-        // Press Button 2
-        public abstract List<BaseEvent> UseAbility3(BattleModel battle);
-
-        // Hold Button 2
-        public abstract List<BaseEvent> UseWait(BattleModel battle);
+        public abstract List<BaseEvent> GetAction(BattleModel battle);
 
         public int Hp { get; set; }
         public int Defense { get; set; }
