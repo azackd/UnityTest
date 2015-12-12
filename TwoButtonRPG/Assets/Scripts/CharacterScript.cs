@@ -7,7 +7,7 @@ using UnityEditor;
 [RequireComponent(typeof(SpriteRenderer))]
 public class CharacterScript : MonoBehaviour
 {
-    public BaseCharacter Character;
+    public BaseCharacter CharacterModel;
 
     public String CharacterName;
     public bool CurrentTurn;
@@ -30,12 +30,12 @@ public class CharacterScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    if (Character != null)
+	    if (CharacterModel != null)
 	    {
-            MaxHealth = Character.MaxHealth;
-            CurrentHealth = Character.Health;
+            MaxHealth = CharacterModel.MaxHealth;
+            CurrentHealth = CharacterModel.Health;
 
-            CharacterName = Character.PublicName;
+            CharacterName = CharacterModel.PublicName;
 
             SetHealthAndManaText();
         }

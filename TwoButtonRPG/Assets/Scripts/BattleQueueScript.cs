@@ -34,7 +34,7 @@ public class BattleQueueScript : MonoBehaviour
 	        var character = Battle.Characters[i];
 	        var gameCharacter = GameCharacters[i];
 
-	        gameCharacter.Character = character;
+	        gameCharacter.CharacterModel = character;
 	    }
 
 	}
