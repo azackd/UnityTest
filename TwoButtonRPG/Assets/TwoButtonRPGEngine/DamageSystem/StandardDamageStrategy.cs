@@ -9,13 +9,13 @@ using Assets.TwoButtonRPGEngine.Helpers;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
-    class MagicImmuneBaseDamageStrategy : BaseDamageStrategy
+    class StandardDamageStrategy : BaseDamageStrategy
     {
-        public MagicImmuneBaseDamageStrategy(ICombatEntity entity) : base(entity)
+        public StandardDamageStrategy(ICombatEntity entity) : base(entity)
         {
         }
 
-        public override DamageResult TakeDamage(DamageSource damageSource)
+        public override DamageResult TakeDamage( DamageSource damageSource)
         {
             if (damageSource.DamageType == DamageSource.DamageTypes.Physical)
             {

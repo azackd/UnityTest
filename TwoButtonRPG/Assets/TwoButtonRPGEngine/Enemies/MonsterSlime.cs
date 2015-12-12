@@ -15,10 +15,10 @@ namespace Assets.TwoButtonRPGEngine.Enemies
 
         public static MonsterSlime CreateMonster()
         {
-            return new MonsterSlime("Slimy Slime", 20, 10, 20);
+            return new MonsterSlime("Slimy Slime", 20, 10, 10, 20);
         }
 
-        public MonsterSlime(string publicName, int hp, int defense, int speed) : base("Slime0", publicName, hp, defense, speed)
+        public MonsterSlime(string publicName, int health, int power, int defense, int speed) : base("Slime0", publicName, health, power, defense, speed)
         {
             BaseDamageStrategy = new MagicImmuneBaseDamageStrategy(this);
         }

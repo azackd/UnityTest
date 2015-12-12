@@ -21,6 +21,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
         private const float HEALTH_VARIANCE = 0.05f;
 
         private const int ATTACK_BASE = 20;
+        private const float ATTACK_VARIANCE = 0.05f;
 
         private const int DEFENSE_BASE = 10;
         private const float DEFENSE_VARIANCE = 0.05f;
@@ -32,65 +33,99 @@ namespace Assets.TwoButtonRPGEngine.Characters
         {
             return new CharacterFighter("Fighter",
                 VarianceHelper.GetResult(HEALTH_BASE, HEALTH_VARIANCE),
+                VarianceHelper.GetResult(ATTACK_BASE, ATTACK_VARIANCE),
                 VarianceHelper.GetResult(DEFENSE_BASE, DEFENSE_VARIANCE),
                 VarianceHelper.GetResult(SPEED_BASE, SPEED_VARIANCE));
         }
 
-        public CharacterFighter(string publicName, int hp, int defense, int speed) : base("Fighter" + _fighterCount++, publicName, hp, defense, speed)
+        public CharacterFighter(string publicName, int health, int power, int defense, int speed) : base("Fighter" + _fighterCount++, publicName, CharacterClasses.Fighter, health, power, defense, speed)
         {
-
+            BaseDamageStrategy = new StandardDamageStrategy(this);
         }
 
-        public override List<BaseEvent> UseAbility1(BattleModel battle)
+        public override CharacterAbility Ability1()
         {
-            var monsters = battle.Monsters;
-
-            // Get the highest health monster.
-            monsters.Sort((x,y) => x.Hp.CompareTo(y.Hp));
-            monsters.Reverse();
-
-            var target = monsters[0];
-            Func<ICombatEntity, int> damageFormula =
-                other =>
-                    VarianceHelper.GetResult(ATTACK_BASE, 0.05f)*4 - VarianceHelper.GetResult(other.Defense, 0.05f)*2;
-
-            var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(this, DamageSource.DamageTypes.Physical, damageFormula));
-
-            return new List<BaseEvent>() { new AbilityDamageEvent(this, target, damage.DamageTaken) };
+            return new FastAttack(this);
         }
 
-        public override List<BaseEvent> UseAbility2(BattleModel battle)
+        public override CharacterAbility Ability2()
         {
-            var monsters = battle.Monsters;
-
-            // Get the highest health monster.
-            monsters.Sort((x, y) => x.Hp.CompareTo(y.Hp));
-            monsters.Reverse();
-
-            var target = monsters[0];
-            Func<ICombatEntity, int> damageFormula =
-                other =>
-                    VarianceHelper.GetResult(ATTACK_BASE, 0.05f) * 4 - VarianceHelper.GetResult(other.Defense, 0.05f) * 1;
-
-            var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(this, DamageSource.DamageTypes.Physical, damageFormula));
-
-            // Slow Attack
-            SpeedModifier = -10;
-
-            return new List<BaseEvent>() { new AbilityDamageEvent(this, target, damage.DamageTaken) };
+            return new SlowAttack(this);
         }
 
-        public override List<BaseEvent> UseAbility3(BattleModel battle)
+        public override CharacterAbility Ability3()
         {
-            throw new NotImplementedException();
+            return new RegenAbility(this);
         }
 
-        public override List<BaseEvent> UseWait(BattleModel battle)
+        public override CharacterAbility AbilityWait()
         {
-            SpeedModifier = 50;
-            return new List<BaseEvent>() { new WaitedEvent(this) };
+            return new WaitAbility(this);
         }
 
         public override BaseDamageStrategy BaseDamageStrategy { get; set; }
+    }
+
+    class FastAttack : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle) {
+            var monsters = battle.Monsters;
+
+            // Get the highest health monster.
+            monsters.Sort((x, y) => x.Health.CompareTo(y.Health));
+            monsters.Reverse();
+
+            var target = monsters[0];
+            Func<ICombatEntity, int> damageFormula =
+                other =>
+                    VarianceHelper.GetResult(Character.Power, 0.05f) * 4 - VarianceHelper.GetResult(other.Defense, 0.05f) * 2;
+
+            var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Physical, damageFormula));
+
+            return new List<BaseEvent>() { new AbilityDamageEvent(Character, target, damage.DamageTaken) };
+        }
+
+        public FastAttack(BaseCharacter character) : base(character, "Fast Attack", "Strike the enemy with the most health.")
+        {
+        }
+    }
+
+    class SlowAttack : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            var monsters = battle.Monsters;
+
+            // Get the highest health monster.
+            monsters.Sort((x, y) => x.Health.CompareTo(y.Health));
+            monsters.Reverse();
+
+            var target = monsters[0];
+            Func<ICombatEntity, int> damageFormula =
+                other =>
+                    VarianceHelper.GetResult(Character.Power, 0.05f) * 4 - VarianceHelper.GetResult(other.Defense, 0.05f) * 1;
+
+            var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Physical, damageFormula));
+
+            return new List<BaseEvent>() { new AbilityDamageEvent(Character, target, damage.DamageTaken) };
+        }
+
+        public SlowAttack(BaseCharacter character) : base(character, "Slow Attack", "Strike the enemy with the most health.  Good versus Armour.")
+        {
+        }
+    }
+
+    class RegenAbility : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            Character.Health += 10;
+
+            return new List<BaseEvent>() { new AbilityHealEvent(Character, Character, 10) };
+        }
+
+        public RegenAbility(BaseCharacter character) : base(character, "Heal", "Recover some health.")
+        {
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Assets.TwoButtonRPGEngine.Event
 
         public override void ResolveEvent(out string message) 
         {
-            TargetEntity.Hp -= Healing;
+            TargetEntity.Health -= Healing;
             message = string.Format("{0} healed {1} damage!", TargetEntity.PublicName, Healing);
         }
     }

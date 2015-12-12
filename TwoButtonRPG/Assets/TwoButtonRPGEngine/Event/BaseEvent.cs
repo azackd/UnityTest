@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 
 namespace Assets.TwoButtonRPGEngine.Event
 {
-    abstract class BaseEvent
+    public abstract class BaseEvent
     {
         public enum EventID
         {

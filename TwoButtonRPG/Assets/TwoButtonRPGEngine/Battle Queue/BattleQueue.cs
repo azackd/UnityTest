@@ -9,8 +9,10 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
 
         public BattleModel Battle;
 
-        public BattleQueue()
+        public BattleQueue(BattleModel battle)
         {
+            Battle = battle;
+
             CombatEventQueue = new List<BaseEvent>();
         }
 

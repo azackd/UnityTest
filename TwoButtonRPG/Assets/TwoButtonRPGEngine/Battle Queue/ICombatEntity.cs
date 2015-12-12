@@ -4,7 +4,7 @@ using Assets.TwoButtonRPGEngine.Event;
 
 namespace Assets.TwoButtonRPGEngine.Battle_Queue
 {
-    interface ICombatEntity
+    public interface ICombatEntity
     {
         int EntityId { get; set; }
 
@@ -14,8 +14,13 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
         bool IsPlayerControlled { get; }
         List<BaseEvent> GetAction(BattleModel battle);
 
-        int Hp { get; set; }
-        
+        int Health { get; set; }
+        int MaxHealth { get; set; }
+
+        int Mana { get; set; }
+        int MaxMana { get; set; }
+
+        int Power { get; set; }
         int Defense { get; set; }
 
         int Speed { get; set; }

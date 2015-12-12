@@ -6,11 +6,20 @@ using Assets.TwoButtonRPGEngine.Battle_Queue;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using JetBrains.Annotations;
+using UnityEditor;
+using UnityEngineInternal;
 
 namespace Assets.TwoButtonRPGEngine.Characters
 {
-    abstract class BaseCharacter : ICombatEntity
+    public abstract class BaseCharacter : ICombatEntity
     {
+        public enum CharacterClasses
+        {
+            Fighter,
+            Rogue,
+            Wizard,
+            Cleric
+        }
 
         private static int _currentCharacterId = 0;
         public int EntityId { get; set; }
@@ -18,13 +27,56 @@ namespace Assets.TwoButtonRPGEngine.Characters
         public string PublicName { get; set; }
         public bool IsPlayerControlled { get; private set; }
 
-        public BaseCharacter(string engineName, string publicName, int hp, int defense, int speed)
+        public CharacterClasses CharacterClass { get; set; }
+
+        public int Health { get; set; }
+        public int MaxHealth { get; set; }
+
+        public int Mana { get; set; }
+        public int MaxMana { get; set; }
+
+        public int Power { get; set; }
+        public int Defense { get; set; }
+        public int Speed { get; set; }
+        public int SpeedModifier { get; set; }
+        public int CurrentTimer { get; set; }
+
+
+        public BaseCharacter(string engineName, string publicName, CharacterClasses characterClass, int health, int power, int defense, int speed)
         {
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
             PublicName = publicName;
 
-            Hp = hp;
+            CharacterClass = characterClass;
+
+            Health = health;
+            MaxHealth = health;
+
+            Power = power;
+            Defense = defense;
+            Speed = speed;
+
+            IsPlayerControlled = true;
+            SpeedModifier = 0;
+            CurrentTimer = 0;
+        }
+
+        public BaseCharacter(string engineName, string publicName, CharacterClasses characterClass, int health, int mana, int power, int defense, int speed)
+        {
+            EntityId = ++_currentCharacterId;
+            EngineName = engineName;
+            PublicName = publicName;
+
+            CharacterClass = characterClass;
+
+            Health = health;
+            MaxHealth = health;
+
+            Mana = mana;
+            MaxMana = mana;
+
+            Power = power;
             Defense = defense;
             Speed = speed;
 
@@ -39,23 +91,50 @@ namespace Assets.TwoButtonRPGEngine.Characters
         }
 
         // Press Button 1
-        public abstract List<BaseEvent> UseAbility1(BattleModel battle);
+        public abstract CharacterAbility Ability1();
 
         // Hold Button 1
-        public abstract List<BaseEvent> UseAbility2(BattleModel battle);
+        public abstract CharacterAbility Ability2();
 
         // Press Button 2
-        public abstract List<BaseEvent> UseAbility3(BattleModel battle);
+        public abstract CharacterAbility Ability3();
 
         // Hold Button 2
-        public abstract List<BaseEvent> UseWait(BattleModel battle);
-
-        public int Hp { get; set; }
-        public int Defense { get; set; }
-        public int Speed { get; set; }
-        public int SpeedModifier { get; set; }
-        public int CurrentTimer { get; set; }
+        public abstract CharacterAbility AbilityWait();
 
         public abstract BaseDamageStrategy BaseDamageStrategy { get; set; }
+    }
+
+    public abstract class CharacterAbility
+    {
+        protected CharacterAbility(BaseCharacter character, string name, string description)
+        {
+            Character = character;
+            Name = name;
+            Description = description;
+        }
+
+        public BaseCharacter Character { get; set; }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+
+        public abstract List<BaseEvent> UseAbility(BattleModel battle);
+    }
+
+    public class WaitAbility : CharacterAbility
+    {
+
+        public WaitAbility(BaseCharacter character) : base(character, "Wait", "Wait a little while for the perfect moment to act!")
+        {
+        }
+
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            Character.SpeedModifier = 50;
+            return new List<BaseEvent> {new WaitedEvent(Character) } ;
+        }
+
+
     }
 }

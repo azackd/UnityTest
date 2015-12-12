@@ -3,7 +3,7 @@ using Assets.TwoButtonRPGEngine.Battle_Queue;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
-    internal class DamageSource
+    public class DamageSource
     {
         public enum DamageTypes
         {

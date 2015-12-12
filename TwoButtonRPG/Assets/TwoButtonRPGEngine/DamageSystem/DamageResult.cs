@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
-    class DamageResult
+    public class DamageResult
     {
         public int DamageTaken;
 

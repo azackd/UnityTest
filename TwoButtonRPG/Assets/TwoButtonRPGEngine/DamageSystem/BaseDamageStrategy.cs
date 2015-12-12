@@ -7,11 +7,11 @@ using Assets.TwoButtonRPGEngine.Enemies;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
-    abstract class BaseDamageStrategy
+    public abstract class BaseDamageStrategy
     {
-        public BaseMonster Entity { get; set; }
+        public ICombatEntity Entity { get; set; }
 
-        public BaseDamageStrategy(BaseMonster entity)
+        public BaseDamageStrategy(ICombatEntity entity)
         {
             Entity = entity;
         }

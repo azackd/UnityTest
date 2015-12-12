@@ -7,7 +7,7 @@ using Assets.TwoButtonRPGEngine.Enemies;
 
 namespace Assets.TwoButtonRPGEngine.Battle_Queue
 {
-    class BattleModel
+    public class BattleModel
     {
         public List<BaseCharacter> Characters;
         public List<BaseMonster> Monsters;
