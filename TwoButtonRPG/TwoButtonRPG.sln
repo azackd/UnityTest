@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoButtonRPG.CSharp.Plugins", "TwoButtonRPG.CSharp.Plugins.csproj", "{B37813A4-EF29-B8D8-9A97-D5A2250CF41A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoButtonRPG.CSharp", "TwoButtonRPG.CSharp.csproj", "{581907DB-AF36-1845-B98E-D75E56549026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoButtonRPG.CSharp.Editor", "TwoButtonRPG.CSharp.Editor.csproj", "{DA9C818B-BAFD-DAF3-20A1-25B15899CF24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B37813A4-EF29-B8D8-9A97-D5A2250CF41A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37813A4-EF29-B8D8-9A97-D5A2250CF41A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37813A4-EF29-B8D8-9A97-D5A2250CF41A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37813A4-EF29-B8D8-9A97-D5A2250CF41A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{581907DB-AF36-1845-B98E-D75E56549026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{581907DB-AF36-1845-B98E-D75E56549026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{581907DB-AF36-1845-B98E-D75E56549026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{581907DB-AF36-1845-B98E-D75E56549026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9C818B-BAFD-DAF3-20A1-25B15899CF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9C818B-BAFD-DAF3-20A1-25B15899CF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9C818B-BAFD-DAF3-20A1-25B15899CF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9C818B-BAFD-DAF3-20A1-25B15899CF24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
