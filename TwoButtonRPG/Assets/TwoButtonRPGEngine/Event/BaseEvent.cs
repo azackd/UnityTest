@@ -25,11 +25,13 @@ namespace Assets.TwoButtonRPGEngine.Event
             AbilityHealEventId = 101,
             ImmuneDamageEventId = 102,
             DamageAbsorbEventId = 103,
+            ReadyActionEventId = 104,
 
             DetectEnemyEventId = 201,
 
             ConditionGainedEventId = 301,
             ConditionFadesEventId = 302,
+
         }
 
         public int EventId { get; private set; }

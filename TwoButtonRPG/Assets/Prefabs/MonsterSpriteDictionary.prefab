@@ -1,68 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &153310
+--- !u!1 &151518
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 421076}
-  - 114: {fileID: 11451620}
+  - 4: {fileID: 450090}
+  - 114: {fileID: 11406172}
   m_Layer: 0
-  m_Name: BattleQueueController
-  m_TagString: Untagged
+  m_Name: MonsterSpriteDictionary
+  m_TagString: MonsterSpriteDictionary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &421076
+--- !u!4 &450090
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153310}
+  m_GameObject: {fileID: 151518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.707798, y: -4.15049362, z: 0}
+  m_LocalPosition: {x: .0128822047, y: -2.37301016, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11451620
+--- !u!114 &11406172
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153310}
+  m_GameObject: {fileID: 151518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3083fe9647d96a43bf73d6a20373150, type: 3}
+  m_Script: {fileID: 11500000, guid: fc15499e62911914bb3de895ed41f037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameCharacters:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  GameMonsters:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BattleWon: 0
-  BattleLost: 0
-  ResolvingEvent: 0
-  BattleQueueText: {fileID: 0}
-  TurnTimeInSeconds: 1.5
+  MonsterSpriteValues:
+  - Monster: 1
+    Sprite: {fileID: 21300000, guid: 343e6db189e5ff844a83688a939c0fcb, type: 3}
+  - Monster: 2
+    Sprite: {fileID: 21300000, guid: 9fbf9623331db374c94f30e0ef6c4c0a, type: 3}
+  - Monster: 3
+    Sprite: {fileID: 21300000, guid: f59db69ecc7c04647b92027e42983c0d, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: MonsterSpriteDictionary
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 153310}
+  m_RootGameObject: {fileID: 151518}
   m_IsPrefabParent: 1

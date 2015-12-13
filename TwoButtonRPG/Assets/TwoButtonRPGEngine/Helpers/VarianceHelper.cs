@@ -9,7 +9,7 @@ namespace Assets.TwoButtonRPGEngine.Helpers
     {
         public static int GetResult(int baseNumber, float variance)
         {
-            return Mathf.RoundToInt(Random.Range(baseNumber - baseNumber*variance, baseNumber + baseNumber*variance));
+            return Random.Range(baseNumber - Mathf.FloorToInt(baseNumber *variance), baseNumber + Mathf.CeilToInt(baseNumber*variance));
         }
     }
 }

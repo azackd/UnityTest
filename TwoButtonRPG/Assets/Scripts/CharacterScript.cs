@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.TwoButtonRPGEngine.Characters;
+using Assets.TwoButtonRPGEngine.Conditions;
 using UnityEditor;
 
 public class CharacterScript : MonoBehaviour
@@ -29,6 +30,9 @@ public class CharacterScript : MonoBehaviour
 
     public CharacterSpriteDictionary SpriteDictionary;
 
+    public ParticleSystem EvasionSmokePrefab;
+    private ParticleSystem _evasionSmoke;
+
 //	// Use this for initialization
 //	void Start () {
 //	
@@ -45,6 +49,9 @@ public class CharacterScript : MonoBehaviour
 	        MaxMana = CharacterModel.MaxMana;
 	        CurrentMana = CharacterModel.MaxMana;
 
+	        var spriteDictionary = GameObject.FindGameObjectWithTag("CharacterSpriteDictionary");
+	        SpriteDictionary = spriteDictionary.GetComponent<CharacterSpriteDictionary>();
+
 	        SpriteRenderer.sprite =
 	            SpriteDictionary.CharacterSpriteValues.First(x => x.CharacterClass == CharacterModel.CharacterClass).Sprite;
             CharacterName = CharacterModel.PublicName;
@@ -53,6 +60,52 @@ public class CharacterScript : MonoBehaviour
             TurnIndicator.gameObject.SetActive(CurrentTurn);
 
             SetHealthAndManaText();
+
+            var color = SpriteRenderer.color;
+            color.b = 1f;
+            color.g = 1f;
+            color.r = 1f;
+            color.a = 1f;
+            SpriteRenderer.color = color;
+
+            // Show off Taunt
+            if (CharacterModel.Conditions.FirstOrDefault(x => x.ConditionId == BaseEntityCondition.ConditionID.Taunt) !=
+	            null)
+	        {
+	            color.r = 1f;
+	            color.g = 0.1f;
+	            color.b = 0.1f;
+
+	            SpriteRenderer.color = color;
+	        }
+
+
+                // Show off Evasion
+                if (CharacterModel.Conditions.FirstOrDefault(x => x.ConditionId == BaseEntityCondition.ConditionID.Evasion) !=
+	            null)
+	        {
+	            if (_evasionSmoke == null)
+	            {
+	                _evasionSmoke = (ParticleSystem) Instantiate(EvasionSmokePrefab, gameObject.transform.FindChild("SmokeTransform").position, Quaternion.identity);
+	                _evasionSmoke.transform.parent = gameObject.transform.FindChild("SmokeTransform");
+	            }
+
+	            color = SpriteRenderer.color;
+	            color.b = 0.1f;
+	            color.g = 0.1f;
+	            color.r = 0.1f;
+	            color.a = 0.5f;
+	            SpriteRenderer.color = color;
+	        }
+	        else
+	        {
+	            if (_evasionSmoke != null)
+	            {
+	                _evasionSmoke.startLifetime = _evasionSmoke.startLifetime/2;
+                    Destroy(_evasionSmoke, 1.0f);
+	                _evasionSmoke = null;
+	            }
+	        }
         }
 	}
 

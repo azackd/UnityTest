@@ -11,6 +11,7 @@ namespace Assets.TwoButtonRPGEngine.Conditions
         public enum ConditionID
         {
             Taunt = 1,
+            Evasion = 2,
         }
 
         public String Name { get; set; }
@@ -36,5 +37,21 @@ namespace Assets.TwoButtonRPGEngine.Conditions
         }
     }
 
-    
+    public class EvasionCondition : BaseEntityCondition
+    {
+        public EvasionCondition()
+        {
+            Name = "Evasion";
+            ConditionId = ConditionID.Evasion;
+            Duration = 1;
+        }
+
+        public override List<BaseEvent> OnTurnStart()
+        {
+            Duration--;
+            return new List<BaseEvent>();
+        }
+    }
+
+
 }

@@ -19,7 +19,7 @@ namespace Assets.TwoButtonRPGEngine.Enemies
             return new MonsterGem(battle, "Gem", battlePosition, 100, 5, 5, 10);
         }
 
-        public MonsterGem(BattleModel battle, string publicName, int battlePosition, int health, int power, int defense, int speed) : base(battle, "Gem", publicName, battlePosition, health, power, defense, speed)
+        public MonsterGem(BattleModel battle, string publicName, int battlePosition, int health, int power, int defense, int speed) : base(battle, "Gem", publicName, battlePosition, Monsters.Gem, health, power, defense, speed)
         {
             BaseDamageStrategy = new MagicAbsorbDamageStrategy(this);
         }
@@ -29,7 +29,7 @@ namespace Assets.TwoButtonRPGEngine.Enemies
             var target = battle.Characters[UnityEngine.Random.Range(0, battle.Characters.Count)];
             Func<ICombatEntity, int> damageFormula =
                 other =>
-                        VarianceHelper.GetResult(Power, 0.2f)*4 - VarianceHelper.GetResult(other.Defense, 0.2f)*2;
+                        VarianceHelper.GetResult(Power, 0.1f) *4 - VarianceHelper.GetResult(other.Defense, 0.1f) *2;
             var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(this, DamageSource.DamageTypes.Physical, damageFormula));
 
             return damage;

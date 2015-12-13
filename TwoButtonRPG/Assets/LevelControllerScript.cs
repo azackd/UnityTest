@@ -33,6 +33,15 @@ public class LevelControllerScript : MonoBehaviour {
                 case BaseMonster.Monsters.Gem:
                     battleQueueScript.BattleQueue.Battle.Monsters.Add(MonsterGem.CreateMonster(battleQueueScript.Battle, enemy.Position));
                     break;
+                case BaseMonster.Monsters.Octo:
+                    battleQueueScript.BattleQueue.Battle.Monsters.Add(MonsterOcto.CreateMonster(battleQueueScript.Battle, enemy.Position));
+                    break;
+                case BaseMonster.Monsters.Wolf:
+                    battleQueueScript.BattleQueue.Battle.Monsters.Add(MonsterWolf.CreateMonster(battleQueueScript.Battle, enemy.Position));
+                    break;
+                case BaseMonster.Monsters.Scarecrow:
+                    battleQueueScript.BattleQueue.Battle.Monsters.Add(MonsterScarecrow.CreateMonster(battleQueueScript.Battle, enemy.Position));
+                    break;
             }
         }
 

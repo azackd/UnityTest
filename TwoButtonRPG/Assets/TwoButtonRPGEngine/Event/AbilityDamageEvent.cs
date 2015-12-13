@@ -27,11 +27,11 @@ namespace Assets.TwoButtonRPGEngine.Event
             var character = SourceEntity.Battle.Characters.FirstOrDefault(x => x.Equals(SourceEntity));
             if (character != null && character.CharacterClass == BaseCharacter.CharacterClasses.Rogue && TargetEntity.Health <= 0)
             {
-                SourceEntity.MaxHealth += 3;
-                SourceEntity.Health += 3;
+                SourceEntity.MaxHealth += 0;
+                SourceEntity.Health += 0;
 
-                SourceEntity.Power += 2;
-                SourceEntity.Defense += 1;
+                SourceEntity.Power += 1;
+                SourceEntity.Defense += 0;
 
                 SourceEntity.Speed += 2;
             }

@@ -23,6 +23,8 @@ public class BattleQueueScript : MonoBehaviour
 
     public Text BattleQueueText;
 
+    public float TurnTimeInSeconds = 1.5f;
+
 	// Use this for initialization
 	void Awake ()
 	{
@@ -70,7 +72,7 @@ public class BattleQueueScript : MonoBehaviour
 
     private void PopulateViews()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < GameCharacters.Count; i++)
         {
             var character = Battle.Characters.FirstOrDefault(x => x.BattlePosition == i);
             if (character == null)
@@ -93,7 +95,7 @@ public class BattleQueueScript : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < GameMonsters.Count; i++)
         {
             var character = Battle.Monsters.FirstOrDefault(x => x.BattlePosition == i);
             if (character == null)
@@ -130,7 +132,7 @@ public class BattleQueueScript : MonoBehaviour
 
     IEnumerator ResolveEvent()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(TurnTimeInSeconds);
         var lastEvent = BattleQueue.GetEvent();
         BattleQueue.ResolveEvent();
 

@@ -24,7 +24,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
         private const int ATTACK_BASE = 20;
         private const float ATTACK_VARIANCE = 0.05f;
 
-        private const int DEFENSE_BASE = 10;
+        private const int DEFENSE_BASE = 5;
         private const float DEFENSE_VARIANCE = 0.05f;
 
         private const int SPEED_BASE = 18;

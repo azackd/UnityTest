@@ -15,6 +15,8 @@ public class GameControllerScript : MonoBehaviour
     public int CurrentLevel;
     public String[] LevelNames;
 
+    public float LevelLoadingSeconds = 2f;
+
     void Awake()
     {
         Campaign = new CampaignModel();
@@ -24,16 +26,16 @@ public class GameControllerScript : MonoBehaviour
 	void Start ()
 	{
 	    DontDestroyOnLoad(this);
-
-        var levelControllerObject = GameObject.FindGameObjectWithTag("LevelController");
-        _levelController = levelControllerObject.GetComponent<LevelControllerScript>();
         _loadingLevel = false;
-    }
+
+        if (CurrentLevel == -1)
+	        StartCoroutine(LoadLevelAfterPause());
+	}
 	
 	// Update is called once per frame
 	void Update () {
 
-	    if (!_loadingLevel && CurrentLevel != LevelNames.Length - 1 && _levelController.battleQueueScript.BattleWon)
+	    if (!_loadingLevel && CurrentLevel != LevelNames.Length - 1 && _levelController != null && _levelController.battleQueueScript.BattleWon)
 	    {
             _loadingLevel = true;
 	        StartCoroutine(LoadLevelAfterPause());
@@ -53,7 +55,7 @@ public class GameControllerScript : MonoBehaviour
 
     IEnumerator LoadLevelAfterPause()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(LevelLoadingSeconds);
 
         CurrentLevel++;
         Application.LoadLevel(LevelNames[CurrentLevel]);

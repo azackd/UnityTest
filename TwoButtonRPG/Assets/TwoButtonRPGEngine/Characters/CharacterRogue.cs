@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
+using Assets.TwoButtonRPGEngine.Conditions;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using Assets.TwoButtonRPGEngine.Helpers;
@@ -51,12 +52,12 @@ namespace Assets.TwoButtonRPGEngine.Characters
 
         public override CharacterAbility Ability2()
         {
-            return new DetectEnemyAbility(this);
+            return new EvasionAbility(this);
         }
 
         public override CharacterAbility Ability3()
         {
-            return new RegenAbility(this);
+            return new DetectEnemyAbility(this);
         }
 
         public override CharacterAbility Ability4()
@@ -117,6 +118,23 @@ namespace Assets.TwoButtonRPGEngine.Characters
         }
 
         public DetectEnemyAbility(BaseCharacter character) : base(character, "Study Enemy", "Study all enemies to learn their weaknesses.")
+        {
+        }
+    }
+
+    class EvasionAbility : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            // Reset the Speed Modifier
+            Character.SpeedModifier = -20;
+
+            var list = new List<BaseEvent>();
+            list.Add(new ConditionGainedEvent(Character, new EvasionCondition()));
+            return list;
+        }
+
+        public EvasionAbility(BaseCharacter character) : base(character, "Evasion", "Dodge all enemy attacks making them do nothing")
         {
         }
     }

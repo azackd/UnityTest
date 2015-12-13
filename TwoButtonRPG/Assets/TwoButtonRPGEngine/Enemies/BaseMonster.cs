@@ -16,6 +16,9 @@ namespace Assets.TwoButtonRPGEngine.Enemies
         {
             Slime = 1,
             Gem = 2,
+            Octo = 3,
+            Wolf = 4,
+            Scarecrow = 5,
         }
 
         private static int _currentCharacterId = 0;
@@ -23,17 +26,21 @@ namespace Assets.TwoButtonRPGEngine.Enemies
         public BattleModel Battle { get; set; }
 
         public int EntityId { get; set; }
+        public Monsters Monster;
+
         public string EngineName { get; set; }
         public string PublicName { get; set; }
         public bool IsPlayerControlled { get; private set; }
 
-        public BaseMonster(BattleModel battle, string engineName, string publicName, int battlePosition, int health, int power, int defense, int speed)
+        public BaseMonster(BattleModel battle, string engineName, string publicName, int battlePosition, Monsters monster, int health, int power, int defense, int speed)
         {
             Battle = battle;
 
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
             PublicName = publicName;
+
+            Monster = monster;
 
             Health = health;
             MaxHealth = health;

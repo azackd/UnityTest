@@ -16,6 +16,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &160604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 491796}
+  - 114: {fileID: 11474932}
+  m_Layer: 0
+  m_Name: CharacterSpriteDictionary
+  m_TagString: CharacterSpriteDictionary
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &160968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 431272}
+  - 114: {fileID: 11413530}
+  m_Layer: 0
+  m_Name: MonsterSpriteDictionary
+  m_TagString: MonsterSpriteDictionary
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &431272
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160968}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 440260}
+  m_RootOrder: 1
 --- !u!4 &440260
 Transform:
   m_ObjectHideFlags: 1
@@ -25,9 +69,41 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 346.5, y: 374.880005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 491796}
+  - {fileID: 431272}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &491796
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160604}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -346.487122, y: -377.253021, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 440260}
+  m_RootOrder: 0
+--- !u!114 &11413530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc15499e62911914bb3de895ed41f037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterSpriteValues:
+  - Monster: 1
+    Sprite: {fileID: 21300000, guid: 343e6db189e5ff844a83688a939c0fcb, type: 3}
+  - Monster: 2
+    Sprite: {fileID: 21300000, guid: 9fbf9623331db374c94f30e0ef6c4c0a, type: 3}
+  - Monster: 3
+    Sprite: {fileID: 21300000, guid: f59db69ecc7c04647b92027e42983c0d, type: 3}
 --- !u!114 &11433690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,10 +115,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fab227b90ddaf549a231e31355fed20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentLevel: 0
+  CurrentLevel: -1
   LevelNames:
   - BattleScene
   - Battle2Scene
+  - BattleOcto
+  LevelLoadingSeconds: .100000001
+--- !u!114 &11474932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce3d919962af03409c3c82c417df88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterSpriteValues:
+  - CharacterClass: 1
+    Sprite: {fileID: 21300000, guid: c21014da24e60284fb5d687810b62e12, type: 3}
+  - CharacterClass: 2
+    Sprite: {fileID: 21300000, guid: 2c378a645be2b0a40831cf47fad3d2c8, type: 3}
+  - CharacterClass: 3
+    Sprite: {fileID: 21300000, guid: fb40ce576b7a8a944b7d121ed3463ee0, type: 3}
+  - CharacterClass: 4
+    Sprite: {fileID: 21300000, guid: 43833e7c2c7710e4fa7c3a8adbb2fffd, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

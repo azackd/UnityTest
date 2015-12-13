@@ -11,18 +11,18 @@ using UnityEngine;
 
 namespace Assets.TwoButtonRPGEngine.Enemies
 {
-    class MonsterSlime : BaseMonster
+    class MonsterWolf : BaseMonster
     {
         // public int ATTACK_BASE = 5;
 
-        public static MonsterSlime CreateMonster(BattleModel battle, int battlePosition)
+        public static MonsterWolf CreateMonster(BattleModel battle, int battlePosition)
         {
-            return new MonsterSlime(battle, "Slimy Slime", battlePosition, 60, 8, 5, 15);
+            return new MonsterWolf(battle, "Rabid Wolf", battlePosition, 60, 7, 5, 25);
         }
 
-        public MonsterSlime(BattleModel battle, string publicName, int battlePosition, int health, int power, int defense, int speed) : base(battle, "Slime", publicName, battlePosition, Monsters.Slime, health, power, defense, speed)
+        public MonsterWolf(BattleModel battle, string publicName, int battlePosition, int health, int power, int defense, int speed) : base(battle, "Wolf", publicName, battlePosition, Monsters.Wolf, health, power, defense, speed)
         {
-            BaseDamageStrategy = new MagicImmuneDamageStrategy(this);
+            BaseDamageStrategy = new StandardDamageStrategy(this);
         }
 
         public override List<BaseEvent> GetAction(BattleModel battle)
@@ -49,7 +49,7 @@ namespace Assets.TwoButtonRPGEngine.Enemies
 
         public override string GetMonsterInformation()
         {
-            return "A slime who is immune to physical damage.";
+            return "A fast, mindless attacker";
         }
     }
 }
