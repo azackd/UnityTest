@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
+using Assets.TwoButtonRPGEngine.Characters;
 using UnityEngine;
 
 namespace Assets.TwoButtonRPGEngine.Event
@@ -21,6 +22,19 @@ namespace Assets.TwoButtonRPGEngine.Event
         {
             TargetEntity.Health -= Damage;
             message = String.Format("{0} took {1} damage!", TargetEntity.PublicName, Damage);
+
+            // TODO: Replace with an event hook!
+            var character = SourceEntity.Battle.Characters.FirstOrDefault(x => x.Equals(SourceEntity));
+            if (character != null && character.CharacterClass == BaseCharacter.CharacterClasses.Rogue && TargetEntity.Health <= 0)
+            {
+                SourceEntity.MaxHealth += 3;
+                SourceEntity.Health += 3;
+
+                SourceEntity.Power += 2;
+                SourceEntity.Defense += 1;
+
+                SourceEntity.Speed += 2;
+            }
         }
     }
 }

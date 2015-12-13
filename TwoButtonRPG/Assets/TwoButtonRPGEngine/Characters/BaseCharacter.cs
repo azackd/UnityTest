@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
+using Assets.TwoButtonRPGEngine.Conditions;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using JetBrains.Annotations;
@@ -22,6 +23,9 @@ namespace Assets.TwoButtonRPGEngine.Characters
         }
 
         private static int _currentCharacterId = 0;
+
+        public BattleModel Battle { get; set; }
+        
         public int EntityId { get; set; }
         public string EngineName { get; set; }
         public string PublicName { get; set; }
@@ -41,8 +45,11 @@ namespace Assets.TwoButtonRPGEngine.Characters
         public int SpeedModifier { get; set; }
         public int CurrentTimer { get; set; }
 
+        public int BattlePosition { get; set; }
 
-        public BaseCharacter(string engineName, string publicName, CharacterClasses characterClass, int health, int power, int defense, int speed)
+        public List<BaseEntityCondition> Conditions { get; set; }
+
+        public BaseCharacter(string engineName, string publicName, int battlePosition, CharacterClasses characterClass, int health, int power, int defense, int speed)
         {
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
@@ -53,6 +60,8 @@ namespace Assets.TwoButtonRPGEngine.Characters
             Health = health;
             MaxHealth = health;
 
+            BattlePosition = battlePosition;
+
             Power = power;
             Defense = defense;
             Speed = speed;
@@ -60,10 +69,14 @@ namespace Assets.TwoButtonRPGEngine.Characters
             IsPlayerControlled = true;
             SpeedModifier = 0;
             CurrentTimer = 0;
+
+            Conditions = new List<BaseEntityCondition>();
         }
 
-        public BaseCharacter(string engineName, string publicName, CharacterClasses characterClass, int health, int mana, int power, int defense, int speed)
+        public BaseCharacter(BattleModel battle, string engineName, string publicName, CharacterClasses characterClass, int health, int mana, int power, int defense, int speed)
         {
+            Battle = battle;
+
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
             PublicName = publicName;
@@ -83,6 +96,8 @@ namespace Assets.TwoButtonRPGEngine.Characters
             IsPlayerControlled = true;
             SpeedModifier = 0;
             CurrentTimer = 0;
+
+            Conditions = new List<BaseEntityCondition>();
         }
 
         public List<BaseEvent> GetAction(BattleModel battle)
@@ -131,7 +146,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
 
         public override List<BaseEvent> UseAbility(BattleModel battle)
         {
-            Character.SpeedModifier = 50;
+            Character.SpeedModifier = 20;
             return new List<BaseEvent> {new WaitedEvent(Character) } ;
         }
     }

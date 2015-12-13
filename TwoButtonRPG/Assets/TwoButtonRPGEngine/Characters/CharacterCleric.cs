@@ -19,27 +19,27 @@ namespace Assets.TwoButtonRPGEngine.Characters
         private static int _clericCount = 0;
 
         private const int HEALTH_BASE = 60;
-        private const float HEALTH_VARIANCE = 0.1f;
+        private const float HEALTH_VARIANCE = 0.05f;
 
         private const int ATTACK_BASE = 20;
-        private const float ATTACK_VARIANCE = 0.1f;
+        private const float ATTACK_VARIANCE = 0.05f;
 
         private const int DEFENSE_BASE = 10;
-        private const float DEFENSE_VARIANCE = 0.1f;
+        private const float DEFENSE_VARIANCE = 0.05f;
 
-        private const int SPEED_BASE = 15;
-        private const float SPEED_VARIANCE = 0.1f;
+        private const int SPEED_BASE = 18;
+        private const float SPEED_VARIANCE = 0.05f;
 
-        public static CharacterCleric CreateCharacter()
+        public static CharacterCleric CreateCharacter(int battlePosition)
         {
-            return new CharacterCleric("Cleric",
+            return new CharacterCleric("Cleric", battlePosition,
                 VarianceHelper.GetResult(HEALTH_BASE, HEALTH_VARIANCE),
                 VarianceHelper.GetResult(ATTACK_BASE, ATTACK_VARIANCE),
                 VarianceHelper.GetResult(DEFENSE_BASE, DEFENSE_VARIANCE),
                 VarianceHelper.GetResult(SPEED_BASE, SPEED_VARIANCE));
         }
 
-        public CharacterCleric(string publicName, int health, int power, int defense, int speed) : base("Cleric" + _clericCount++, publicName, CharacterClasses.Fighter, health, power, defense, speed)
+        public CharacterCleric(string publicName, int position, int health, int power, int defense, int speed) : base("Cleric" + _clericCount++, publicName, position, CharacterClasses.Cleric, health, power, defense, speed)
         {
             BaseDamageStrategy = new StandardDamageStrategy(this);
         }
@@ -69,7 +69,10 @@ namespace Assets.TwoButtonRPGEngine.Characters
 
     class HealAbility : CharacterAbility
     {
-        public override List<BaseEvent> UseAbility(BattleModel battle) {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            // Reset the Speed Modifier
+            Character.SpeedModifier = 0;
 
             var characters = battle.Characters;
 
@@ -98,14 +101,15 @@ namespace Assets.TwoButtonRPGEngine.Characters
     {
         public override List<BaseEvent> UseAbility(BattleModel battle)
         {
+            // Reset the Speed Modifier
+            Character.SpeedModifier = 0;
 
             var characters = battle.Characters;
-
             var healingList = new List<BaseEvent>();
 
             foreach (var target in characters)
             {
-                healingList.Add(new AbilityHealEvent(Character, target, VarianceHelper.GetResult(Character.Power, 0.2f) * 2))
+                healingList.Add(new AbilityHealEvent(Character, target, VarianceHelper.GetResult(Character.Power, 0.2f) * 1))
                 ;
             }
             return healingList;

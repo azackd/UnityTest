@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
 using Assets.TwoButtonRPGEngine.Enemies;
+using Assets.TwoButtonRPGEngine.Event;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
@@ -16,6 +17,6 @@ namespace Assets.TwoButtonRPGEngine.DamageSystem
             Entity = entity;
         }
 
-        public abstract DamageResult TakeDamage(DamageSource damageSource);
+        public abstract List<BaseEvent> TakeDamage(DamageSource damageSource);
     }
 }

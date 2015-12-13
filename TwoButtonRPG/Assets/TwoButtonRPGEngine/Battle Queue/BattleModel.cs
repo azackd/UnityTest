@@ -9,7 +9,13 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
 {
     public class BattleModel
     {
-        public List<BaseCharacter> Characters;
+        public CampaignModel Campaign;
+
+        public List<BaseCharacter> Characters
+        {
+            get { return Campaign.Characters; }
+        }
+
         public List<BaseMonster> Monsters;
 
         public List<ICombatEntity> CombatEntities
@@ -22,9 +28,11 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
 
         public ICombatEntity CurrentTurnEntity;
 
-        public BattleModel()
+        public BattleModel(CampaignModel campaign)
         {
-            Characters = new List<BaseCharacter>();
+            Campaign = campaign;
+
+            Campaign.Characters.ForEach(x => x.Battle = this);
             Monsters = new List<BaseMonster>();
         }
 
@@ -36,7 +44,6 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
             if (!speedSanityCheck) throw new Exception("At least one of the characters must have a speed greater than zero");
 
             // Sort them by the highest count
-
             entities.Sort(
                 (x, y) =>
                     (x.CurrentTimer + x.Speed + x.SpeedModifier).CompareTo(y.CurrentTimer + y.Speed + y.SpeedModifier));
@@ -49,9 +56,7 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
             if (fastestCharacter.CurrentTimer >= 100)
             {
                 fastestCharacter.CurrentTimer -= 100;
-
-                CurrentTurnEntity = fastestCharacter;
-
+                // CurrentTurnEntity = fastestCharacter;
                 return fastestCharacter;
             }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
+using Assets.TwoButtonRPGEngine.Conditions;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using JetBrains.Annotations;
@@ -11,14 +12,25 @@ namespace Assets.TwoButtonRPGEngine.Enemies
 {
     public abstract class BaseMonster : ICombatEntity
     {
+        public enum Monsters
+        {
+            Slime = 1,
+            Gem = 2,
+        }
+
         private static int _currentCharacterId = 0;
+
+        public BattleModel Battle { get; set; }
+
         public int EntityId { get; set; }
         public string EngineName { get; set; }
         public string PublicName { get; set; }
         public bool IsPlayerControlled { get; private set; }
 
-        public BaseMonster(string engineName, string publicName, int health, int power, int defense, int speed)
+        public BaseMonster(BattleModel battle, string engineName, string publicName, int battlePosition, int health, int power, int defense, int speed)
         {
+            Battle = battle;
+
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
             PublicName = publicName;
@@ -26,9 +38,13 @@ namespace Assets.TwoButtonRPGEngine.Enemies
             Health = health;
             MaxHealth = health;
 
+            BattlePosition = battlePosition;
+
             Power = power;
             Defense = defense;
             Speed = speed;
+
+            Conditions = new List<BaseEntityCondition>();
 
             IsPlayerControlled = false;
             SpeedModifier = 0;
@@ -36,8 +52,10 @@ namespace Assets.TwoButtonRPGEngine.Enemies
         }
 
 
-        public BaseMonster(string engineName, string publicName, int health, int mana, int power, int defense, int speed)
+        public BaseMonster(BattleModel battle, string engineName, string publicName, int battlePosition, int health, int mana, int power, int defense, int speed)
         {
+            Battle = battle;
+
             EntityId = ++_currentCharacterId;
             EngineName = engineName;
             PublicName = publicName;
@@ -48,8 +66,12 @@ namespace Assets.TwoButtonRPGEngine.Enemies
             Mana = mana;
             MaxMana = mana;
 
+            BattlePosition = battlePosition;
+
             Defense = defense;
             Speed = speed;
+
+            Conditions = new List<BaseEntityCondition>();
 
             IsPlayerControlled = true;
             SpeedModifier = 0;
@@ -64,12 +86,17 @@ namespace Assets.TwoButtonRPGEngine.Enemies
         public int Mana { get; set; }
         public int MaxMana { get; set; }
 
+        public int BattlePosition { get; set; }
+
         public int Power { get; set; }
         public int Defense { get; set; }
         public int Speed { get; set; }
         public int SpeedModifier { get; set; }
         public int CurrentTimer { get; set; }
 
+        public List<BaseEntityCondition> Conditions { get; set; }
+
         public abstract BaseDamageStrategy BaseDamageStrategy { get; set; }
+        public abstract string GetMonsterInformation();
     }
 }

@@ -15,30 +15,39 @@ public class ActionButtonControllerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-	    if (BattleQueueScript != null && BattleQueueScript.Battle != null)
+	    if (BattleQueueScript != null && BattleQueueScript.Battle != null && !BattleQueueScript.BattleWon && !BattleQueueScript.BattleLost &&
+	        BattleQueueScript.BattleQueue.GetEvent().WaitingForInput)
 	    {
-	        var playerCharacter = BattleQueueScript.Battle.Characters.FirstOrDefault(x => x == BattleQueueScript.Battle.CurrentTurnEntity);
+	        var playerCharacter =
+	            BattleQueueScript.Battle.Characters.FirstOrDefault(x => x == BattleQueueScript.Battle.CurrentTurnEntity);
 
 	        if (playerCharacter != null)
 	        {
-                ActionButtonList[0].gameObject.SetActive(true);
-                ActionButtonList[1].gameObject.SetActive(true);
-                ActionButtonList[2].gameObject.SetActive(true);
-                ActionButtonList[3].gameObject.SetActive(true);
+	            ActionButtonList[0].gameObject.SetActive(true);
+	            ActionButtonList[1].gameObject.SetActive(true);
+	            ActionButtonList[2].gameObject.SetActive(true);
+	            ActionButtonList[3].gameObject.SetActive(true);
 
-                ActionButtonList[0].GetComponentInChildren<Text>().text = playerCharacter.Ability1().Name;
+	            ActionButtonList[0].GetComponentInChildren<Text>().text = playerCharacter.Ability1().Name;
 	            ActionButtonList[1].GetComponentInChildren<Text>().text = playerCharacter.Ability2().Name;
 	            ActionButtonList[2].GetComponentInChildren<Text>().text = playerCharacter.Ability3().Name;
 	            ActionButtonList[3].GetComponentInChildren<Text>().text = playerCharacter.Ability4().Name;
 	        }
 	        else
 	        {
-                ActionButtonList[0].gameObject.SetActive(false);
-                ActionButtonList[1].gameObject.SetActive(false);
-                ActionButtonList[2].gameObject.SetActive(false);
-                ActionButtonList[3].gameObject.SetActive(false);
-            }
+	            ActionButtonList[0].gameObject.SetActive(false);
+	            ActionButtonList[1].gameObject.SetActive(false);
+	            ActionButtonList[2].gameObject.SetActive(false);
+	            ActionButtonList[3].gameObject.SetActive(false);
+	        }
 	    }
+	    else
+	    {
+            ActionButtonList[0].gameObject.SetActive(false);
+            ActionButtonList[1].gameObject.SetActive(false);
+            ActionButtonList[2].gameObject.SetActive(false);
+            ActionButtonList[3].gameObject.SetActive(false);
+        }
 	}
 
     public void OnActionUsed(int abilityNumber)

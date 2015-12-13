@@ -29,16 +29,16 @@ namespace Assets.TwoButtonRPGEngine.Characters
         private const int SPEED_BASE = 20;
         private const float SPEED_VARIANCE = 0.05f;
 
-        public static CharacterWizard CreateCharacter()
+        public static CharacterWizard CreateCharacter(int battlePosition)
         {
-            return new CharacterWizard("Wizard",
+            return new CharacterWizard("Wizard", battlePosition,
                 VarianceHelper.GetResult(HEALTH_BASE, HEALTH_VARIANCE),
                 VarianceHelper.GetResult(ATTACK_BASE, ATTACK_VARIANCE),
                 VarianceHelper.GetResult(DEFENSE_BASE, DEFENSE_VARIANCE),
                 VarianceHelper.GetResult(SPEED_BASE, SPEED_VARIANCE));
         }
 
-        public CharacterWizard(string publicName, int health, int power, int defense, int speed) : base("Wizard" + _wizardCount++, publicName, CharacterClasses.Fighter, health, power, defense, speed)
+        public CharacterWizard(string publicName, int battlePosition, int health, int power, int defense, int speed) : base("Wizard" + _wizardCount++, publicName, battlePosition, CharacterClasses.Wizard, health, power, defense, speed)
         {
             BaseDamageStrategy = new StandardDamageStrategy(this);
         }
@@ -71,6 +71,9 @@ namespace Assets.TwoButtonRPGEngine.Characters
         public override List<BaseEvent> UseAbility(BattleModel battle) {
             var monsters = battle.Monsters;
 
+            // Reset the Speed Modifier
+            Character.SpeedModifier = 0;
+
             // Get the highest health monster.
             monsters.Sort((x, y) => x.Health.CompareTo(y.Health));
             monsters.Reverse();
@@ -78,11 +81,11 @@ namespace Assets.TwoButtonRPGEngine.Characters
             var target = monsters[0];
             Func<ICombatEntity, int> damageFormula =
                 other =>
-                    VarianceHelper.GetResult(Character.Power, 0.2f) * 4 - VarianceHelper.GetResult(other.Defense, 0.2f) * 2;
+                    VarianceHelper.GetResult(Character.Power, 0.1f) * 4 - VarianceHelper.GetResult(other.Defense, 0.1f) * 2;
 
             var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Arcane, damageFormula));
 
-            return new List<BaseEvent>() { new AbilityDamageEvent(Character, target, damage.DamageTaken) };
+            return damage;
         }
 
         public FireblastAbility(BaseCharacter character) : base(character, "Fireblast", "Fireblast the enemy with the most health.")
@@ -94,18 +97,21 @@ namespace Assets.TwoButtonRPGEngine.Characters
     {
         public override List<BaseEvent> UseAbility(BattleModel battle)
         {
+            // Reset the Speed Modifier
+            Character.SpeedModifier = -10;
+
             var monsters = battle.Monsters;
 
             // Get the highest health monster.
             Func<ICombatEntity, int> damageFormula =
                 other =>
-                    VarianceHelper.GetResult(Character.Power, 0.2f) * 3 - VarianceHelper.GetResult(other.Defense, 0.2f) * 2;
+                    VarianceHelper.GetResult(Character.Power, 0.1f) * 3 - VarianceHelper.GetResult(other.Defense, 0.1f) * 2;
 
             var events = new List<BaseEvent>();
             foreach (var target in monsters)
             {
                 var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Arcane, damageFormula));
-                events.Add(new AbilityDamageEvent(Character, target, damage.DamageTaken));
+                events.AddRange(damage);
             }
 
             return events;

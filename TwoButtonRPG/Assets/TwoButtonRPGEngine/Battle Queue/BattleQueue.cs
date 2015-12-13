@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using Assets.TwoButtonRPGEngine.Event;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 namespace Assets.TwoButtonRPGEngine.Battle_Queue
 {
@@ -15,6 +19,7 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
             Battle = battle;
 
             CombatEventQueue = new List<BaseEvent>();
+            CombatEventQueue.Add(new BattleStartEvent());
         }
 
         public bool IsEmpty()
@@ -30,8 +35,41 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
         {
             if (CombatEventQueue.Count == 0)
             {
+                if (Battle.Characters.Count == 0)
+                {
+                    CombatEventQueue.Add(new BattleWonEvent());
+                    return CombatEventQueue[0];
+                }
+                else if (Battle.Monsters.Count == 0)
+                {
+                    CombatEventQueue.Add(new BattleWonEvent());
+                    return CombatEventQueue[0];
+                }
+
+                var deadCharacters = Battle.Characters.Where(x => x.Health <= 0);
+                var deadMonsters = Battle.Monsters.Where(x => x.Health <= 0);
+
+                deadCharacters.ToList().ForEach(x => CombatEventQueue.Add(new DeadCharacterEvent(x)));
+                deadMonsters.ToList().ForEach(x => CombatEventQueue.Add(new DeadMonsterEvent(x)));
+
+                if (CombatEventQueue.Count != 0) return CombatEventQueue[0];
+
                 var nextTurnEntity = Battle.GetNextTurnEntity();
+
+                // Start a new turn
                 CombatEventQueue.Add(new NextEntityTurnEvent(nextTurnEntity));
+
+                // Apply all of the condition effects.
+                var conditionStartTurnList = new List<BaseEvent>();
+                nextTurnEntity.Conditions.ForEach(x => conditionStartTurnList.AddRange(x.OnTurnStart()));
+                conditionStartTurnList.RemoveAll(x => x == null);
+
+                var fadingConditions = nextTurnEntity.Conditions.Where(x => x.Duration == 0).ToList();
+                fadingConditions.ForEach(x => conditionStartTurnList.Add(new ConditionFadesEvent(nextTurnEntity, x)));
+
+                // Get the player's input.
+                CombatEventQueue.AddRange(conditionStartTurnList);
+                CombatEventQueue.Add(new PendingActionEvent(nextTurnEntity));
 
                 if (!nextTurnEntity.IsPlayerControlled)
                 {

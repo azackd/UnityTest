@@ -5,6 +5,7 @@ using System.Security;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
 using Assets.TwoButtonRPGEngine.Enemies;
+using Assets.TwoButtonRPGEngine.Event;
 using Assets.TwoButtonRPGEngine.Helpers;
 using UnityEngine;
 
@@ -16,9 +17,13 @@ namespace Assets.TwoButtonRPGEngine.DamageSystem
         {
         }
 
-        public override DamageResult TakeDamage( DamageSource damageSource)
+        public override List<BaseEvent> TakeDamage( DamageSource damageSource)
         {
-            return new DamageResult(Mathf.Max(1,damageSource.BaseDamageFormula(Entity)));
+            return new List<BaseEvent>()
+            {
+                new AbilityDamageEvent(damageSource.Attacker, Entity,
+                    Mathf.Max(1, damageSource.BaseDamageFormula(Entity)))
+            };
         }
 
 

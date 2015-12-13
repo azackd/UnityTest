@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
+using Assets.TwoButtonRPGEngine.Conditions;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 using Assets.TwoButtonRPGEngine.Helpers;
@@ -29,16 +30,16 @@ namespace Assets.TwoButtonRPGEngine.Characters
         private const int SPEED_BASE = 20;
         private const float SPEED_VARIANCE = 0.05f;
 
-        public static CharacterFighter CreateCharacter()
+        public static CharacterFighter CreateCharacter(int battlePosition)
         {
-            return new CharacterFighter("Fighter",
+            return new CharacterFighter("Fighter", battlePosition,
                 VarianceHelper.GetResult(HEALTH_BASE, HEALTH_VARIANCE),
                 VarianceHelper.GetResult(ATTACK_BASE, ATTACK_VARIANCE),
                 VarianceHelper.GetResult(DEFENSE_BASE, DEFENSE_VARIANCE),
                 VarianceHelper.GetResult(SPEED_BASE, SPEED_VARIANCE));
         }
 
-        public CharacterFighter(string publicName, int health, int power, int defense, int speed) : base("Fighter" + _fighterCount++, publicName, CharacterClasses.Fighter, health, power, defense, speed)
+        public CharacterFighter(string publicName, int battlePosition, int health, int power, int defense, int speed) : base("Fighter" + _fighterCount++, publicName, battlePosition, CharacterClasses.Fighter, health, power, defense, speed)
         {
             BaseDamageStrategy = new StandardDamageStrategy(this);
         }
@@ -50,7 +51,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
 
         public override CharacterAbility Ability2()
         {
-            return new SlowAttack(this);
+            return new TauntAbility(this);
         }
 
         public override CharacterAbility Ability3()
@@ -70,6 +71,9 @@ namespace Assets.TwoButtonRPGEngine.Characters
     {
         public override List<BaseEvent> UseAbility(BattleModel battle)
         {
+            // Reset the Speed Modifier
+            Character.SpeedModifier = 0;
+
             var monsters = battle.Monsters;
 
             // Get the highest health monster.
@@ -83,7 +87,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
 
             var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Physical, damageFormula));
 
-            return new List<BaseEvent>() { new AbilityDamageEvent(Character, target, damage.DamageTaken) };
+            return damage;
         }
 
         public FastAttack(BaseCharacter character) : base(character, "Fast Attack", "Strike the enemy with the most health.")
@@ -91,27 +95,19 @@ namespace Assets.TwoButtonRPGEngine.Characters
         }
     }
 
-    class SlowAttack : CharacterAbility
+    class TauntAbility : CharacterAbility
     {
         public override List<BaseEvent> UseAbility(BattleModel battle)
         {
-            var monsters = battle.Monsters;
+            Character.SpeedModifier = 0;
 
-            // Get the highest health monster.
-            monsters.Sort((x, y) => x.Health.CompareTo(y.Health));
-            monsters.Reverse();
+            var condition = new TauntCondition();
+            var conditionEvent = new ConditionGainedEvent(Character, condition);
 
-            var target = monsters[0];
-            Func<ICombatEntity, int> damageFormula =
-                other =>
-                    VarianceHelper.GetResult(Character.Power, 0.2f) * 4 - VarianceHelper.GetResult(other.Defense, 0.2f) * 1;
-
-            var damage = target.BaseDamageStrategy.TakeDamage(new DamageSource(Character, DamageSource.DamageTypes.Physical, damageFormula));
-
-            return new List<BaseEvent>() { new AbilityDamageEvent(Character, target, damage.DamageTaken) };
+            return new List<BaseEvent>() { conditionEvent };
         }
 
-        public SlowAttack(BaseCharacter character) : base(character, "Slow Attack", "Strike the enemy with the most health.  Good versus Armour.")
+        public TauntAbility(BaseCharacter character) : base(character, "Taunt", "Force mindless enemies to attack you!")
         {
         }
     }

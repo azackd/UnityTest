@@ -9,7 +9,7 @@ namespace Assets.TwoButtonRPGEngine.Event
     class WaitedEvent : BaseEvent
     {
         public WaitedEvent(ICombatEntity source)
-            : base((int)EventID.WaitedEventId, "WaitedEvent", source, null, source.IsPlayerControlled)
+            : base((int)EventID.WaitedEventId, "WaitedEvent", source, null)
         {
             
         }

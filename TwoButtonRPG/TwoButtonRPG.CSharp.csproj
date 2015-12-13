@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.2.2f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,6 +78,8 @@
   <ItemGroup>
     <Compile Include="Assets\ActionButtonControllerScript.cs" />
     <Compile Include="Assets\CharacterSpriteDictionary.cs" />
+    <Compile Include="Assets\GameControllerScript.cs" />
+    <Compile Include="Assets\LevelControllerScript.cs" />
     <Compile Include="Assets\Scripts\BattleQueueScript.cs" />
     <Compile Include="Assets\Scripts\CharacterPositionScript.cs" />
     <Compile Include="Assets\Scripts\CharacterScript.cs" />
@@ -83,22 +87,37 @@
     <Compile Include="Assets\Scripts\MonsterScript.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\BattleModel.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\BattleQueue.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\CampaignModel.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\ICombatEntity.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\BaseCharacter.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterCleric.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterFighter.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterRogue.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterWizard.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Conditions\BaseEntityCondition.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\BaseDamageStrategy.cs" />
-    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageResult.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageSource.cs" />
-    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\MagicImmuneBaseDamageStrategy.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\MagicAbsorbDamageStrategy.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\MagicImmuneDamageStrategy.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\StandardDamageStrategy.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Enemies\BaseMonster.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Enemies\MonsterGem.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Enemies\MonsterSlime.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\AbilityDamageEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\ConditionFadesEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\ConditionGainedEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\AbilityHealEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\BaseEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\BattleLostEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\BattleStartEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\BattleWonEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\DeadCharacterEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\DeadMonsterEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\DetectEnemyEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\DamageAbsorbEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\ImmuneDamageEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\NextEntityTurnEvent.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Event\PendingActionEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Event\WaitedEvent.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Helpers\VarianceHelper.cs" />
   </ItemGroup>

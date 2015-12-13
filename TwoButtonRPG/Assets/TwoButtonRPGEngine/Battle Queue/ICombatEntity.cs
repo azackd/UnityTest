@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.TwoButtonRPGEngine.Conditions;
 using Assets.TwoButtonRPGEngine.DamageSystem;
 using Assets.TwoButtonRPGEngine.Event;
 
@@ -8,11 +9,15 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
     {
         int EntityId { get; set; }
 
+        BattleModel Battle { get; set; }
+
         string EngineName { get; set; }
         string PublicName { get; set; }
 
         bool IsPlayerControlled { get; }
         List<BaseEvent> GetAction(BattleModel battle);
+        
+        int BattlePosition { get; set; }
 
         int Health { get; set; }
         int MaxHealth { get; set; }
@@ -27,6 +32,7 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
         int SpeedModifier { get; set; }
         int CurrentTimer { get; set; }
 
+        List<BaseEntityCondition> Conditions { get; set; }
         BaseDamageStrategy BaseDamageStrategy { get; set;  }
     }
 }

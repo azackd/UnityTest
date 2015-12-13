@@ -2,9 +2,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
 using Assets.TwoButtonRPGEngine.Characters;
 using Assets.TwoButtonRPGEngine.Enemies;
+using Assets.TwoButtonRPGEngine.Event;
 using UnityEngine.UI;
 
 public class BattleQueueScript : MonoBehaviour
@@ -15,25 +17,33 @@ public class BattleQueueScript : MonoBehaviour
     public List<CharacterScript> GameCharacters = new List<CharacterScript>();
     public List<MonsterScript> GameMonsters = new List<MonsterScript>();
 
+    public bool BattleWon;
+    public bool BattleLost;
     public bool ResolvingEvent = false;
 
     public Text BattleQueueText;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
-        Battle = new BattleModel();
+	    var gameController = GameObject.FindGameObjectWithTag("GameController");
 
-        Battle.Characters.Add(CharacterFighter.CreateCharacter());
-        Battle.Characters.Add(CharacterCleric.CreateCharacter());
-        Battle.Characters.Add(CharacterWizard.CreateCharacter());
+	    if (gameController == null)
+	    {
+	        throw new Exception("Could not find GameController");
+	    }
 
-        Battle.Monsters.Add(MonsterSlime.CreateMonster());
-        Battle.Monsters.Add(MonsterSlime.CreateMonster());
-        Battle.Monsters.Add(MonsterSlime.CreateMonster());
+	    var gameControllerScript = gameController.gameObject.GetComponent<GameControllerScript>();
 
+        Battle = new BattleModel(gameControllerScript.Campaign);
         BattleQueue = new BattleQueue(Battle);
-	}
+
+        //        Battle.Monsters.Add(MonsterSlime.CreateMonster(Battle, 0));
+        //        Battle.Monsters.Add(MonsterSlime.CreateMonster(Battle, 1));
+        //        Battle.Monsters.Add(MonsterSlime.CreateMonster(Battle, 2));
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -43,7 +53,7 @@ public class BattleQueueScript : MonoBehaviour
 	        BattleQueueText.text = BattleQueue.LastMessage;
 	    }
 
-	    if (!ResolvingEvent)
+	    if (!ResolvingEvent && !(BattleWon || BattleLost))
 	    {
 	        var battleEvent = BattleQueue.GetEvent();
 	        if (battleEvent != null && !battleEvent.WaitingForInput)
@@ -54,39 +64,44 @@ public class BattleQueueScript : MonoBehaviour
 
 	    }
 
+        // Populate the player and monster views.
+	    PopulateViews();
+	}
 
-	    for (int i = 0; i < 4; i++)
-	    {
-	        if (Battle.Characters.Count <= i)
-	        {
+    private void PopulateViews()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            var character = Battle.Characters.FirstOrDefault(x => x.BattlePosition == i);
+            if (character == null)
+            {
                 GameCharacters[i].gameObject.SetActive(false);
-	            continue;
-	        }
+                continue;
+            }
 
-	        var character = Battle.Characters[i];
-	        var gameCharacter = GameCharacters[i];
+            var gameCharacter = GameCharacters[i];
 
             gameCharacter.CharacterModel = character;
             gameCharacter.gameObject.SetActive(true);
             if (character == Battle.CurrentTurnEntity)
-	        {
-	            gameCharacter.CurrentTurn = true;
-	        }
-	        else
-	        {
-	            gameCharacter.CurrentTurn = false;
-	        }
-	    }
+            {
+                gameCharacter.CurrentTurn = true;
+            }
+            else
+            {
+                gameCharacter.CurrentTurn = false;
+            }
+        }
 
         for (int i = 0; i < 5; i++)
         {
-            if (Battle.Monsters.Count <= i)
+            var character = Battle.Monsters.FirstOrDefault(x => x.BattlePosition == i);
+            if (character == null)
             {
                 GameMonsters[i].gameObject.SetActive(false);
                 continue;
             }
 
-            var character = Battle.Monsters[i];
             var gameCharacter = GameMonsters[i];
 
             gameCharacter.gameObject.SetActive(true);
@@ -100,10 +115,7 @@ public class BattleQueueScript : MonoBehaviour
             {
                 gameCharacter.CurrentTurn = false;
             }
-
-
         }
-
     }
 
     public void OnStartBattleClick()
@@ -119,7 +131,19 @@ public class BattleQueueScript : MonoBehaviour
     IEnumerator ResolveEvent()
     {
         yield return new WaitForSeconds(1.5f);
+        var lastEvent = BattleQueue.GetEvent();
         BattleQueue.ResolveEvent();
+
+        if (lastEvent.EventId == (int)BaseEvent.EventID.BattleWonEventId)
+        {
+            BattleWon = true;
+        }
+
+        if(lastEvent.EventId == (int)BaseEvent.EventID.BattleLostEventId)
+        {
+            BattleLost = true;
+        }
+
         ResolvingEvent = false;
     }
 }

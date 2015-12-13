@@ -11,10 +11,25 @@ namespace Assets.TwoButtonRPGEngine.Event
     {
         public enum EventID
         {
+            BattleWonEventId = -1,
+            BattleLostEventId = -2,
+
+            BattleStartEventId = 0,
+
             NextEntityTurnEventId = 1,
             WaitedEventId = 2,
+            DeadCharacterEventId = 3,
+            DeadMonsterEventId = 4,
+            PendingActionEventId = 5,
             AbilityDamageEventId = 100,
             AbilityHealEventId = 101,
+            ImmuneDamageEventId = 102,
+            DamageAbsorbEventId = 103,
+
+            DetectEnemyEventId = 201,
+
+            ConditionGainedEventId = 301,
+            ConditionFadesEventId = 302,
         }
 
         public int EventId { get; private set; }
