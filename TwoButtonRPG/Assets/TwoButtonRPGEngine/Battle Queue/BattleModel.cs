@@ -30,22 +30,28 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
 
         public ICombatEntity GetNextTurnEntity()
         {
-            var speedSanityCheck = CombatEntities.Any(x => x.Speed + x.SpeedModifier > 0);
+            var entities = CombatEntities;
+
+            var speedSanityCheck = entities.Any(x => x.Speed + x.SpeedModifier > 0);
             if (!speedSanityCheck) throw new Exception("At least one of the characters must have a speed greater than zero");
 
             // Sort them by the highest count
-            CombatEntities.Sort(
+
+            entities.Sort(
                 (x, y) =>
                     (x.CurrentTimer + x.Speed + x.SpeedModifier).CompareTo(y.CurrentTimer + y.Speed + y.SpeedModifier));
 
             // Find the entity with the highest count.
-            CombatEntities.Reverse();
+            entities.Reverse();
 
             // Check to see if there is a person over 100
-            var fastestCharacter = CombatEntities[0];
+            var fastestCharacter = entities[0];
             if (fastestCharacter.CurrentTimer >= 100)
             {
                 fastestCharacter.CurrentTimer -= 100;
+
+                CurrentTurnEntity = fastestCharacter;
+
                 return fastestCharacter;
             }
 

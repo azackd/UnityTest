@@ -3,17 +3,23 @@ using Assets.TwoButtonRPGEngine.Event;
 
 namespace Assets.TwoButtonRPGEngine.Battle_Queue
 {
-    class BattleQueue
+    public class BattleQueue
     {
         private List<BaseEvent> CombatEventQueue;
 
-        public BattleModel Battle;
+        public BattleModel Battle { get; set; }
+        public string LastMessage { get; set; }
 
         public BattleQueue(BattleModel battle)
         {
             Battle = battle;
 
             CombatEventQueue = new List<BaseEvent>();
+        }
+
+        public bool IsEmpty()
+        {
+            return CombatEventQueue.Count == 0;
         }
 
         /// <summary>
@@ -43,7 +49,12 @@ namespace Assets.TwoButtonRPGEngine.Battle_Queue
         {
             if (CombatEventQueue.Count != 0)
             {
+                var message = "";
+
+                CombatEventQueue[0].ResolveEvent(out message);
                 CombatEventQueue.RemoveAt(0);
+
+                LastMessage = message;
             }
         }
 

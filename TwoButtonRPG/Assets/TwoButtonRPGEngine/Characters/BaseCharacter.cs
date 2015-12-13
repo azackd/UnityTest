@@ -15,10 +15,10 @@ namespace Assets.TwoButtonRPGEngine.Characters
     {
         public enum CharacterClasses
         {
-            Fighter,
-            Rogue,
-            Wizard,
-            Cleric
+            Fighter = 1,
+            Rogue = 2,
+            Wizard = 3,
+            Cleric = 4
         }
 
         private static int _currentCharacterId = 0;
@@ -100,7 +100,7 @@ namespace Assets.TwoButtonRPGEngine.Characters
         public abstract CharacterAbility Ability3();
 
         // Hold Button 2
-        public abstract CharacterAbility AbilityWait();
+        public abstract CharacterAbility Ability4();
 
         public abstract BaseDamageStrategy BaseDamageStrategy { get; set; }
     }
@@ -134,7 +134,30 @@ namespace Assets.TwoButtonRPGEngine.Characters
             Character.SpeedModifier = 50;
             return new List<BaseEvent> {new WaitedEvent(Character) } ;
         }
+    }
 
+    class RegenAbility : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
 
+            return new List<BaseEvent>() { new AbilityHealEvent(Character, Character, 10) };
+        }
+
+        public RegenAbility(BaseCharacter character) : base(character, "Heal", "Recover some health.")
+        {
+        }
+    }
+
+    class RestoreAbility : CharacterAbility
+    {
+        public override List<BaseEvent> UseAbility(BattleModel battle)
+        {
+            return new List<BaseEvent>() { new AbilityHealEvent(Character, Character, 10) };
+        }
+
+        public RestoreAbility(BaseCharacter character) : base(character, "Restore", "Recover some health and some mana")
+        {
+        }
     }
 }

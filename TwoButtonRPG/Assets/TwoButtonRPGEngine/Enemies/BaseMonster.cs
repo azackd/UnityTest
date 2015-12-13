@@ -26,10 +26,11 @@ namespace Assets.TwoButtonRPGEngine.Enemies
             Health = health;
             MaxHealth = health;
 
+            Power = power;
             Defense = defense;
             Speed = speed;
 
-            IsPlayerControlled = true;
+            IsPlayerControlled = false;
             SpeedModifier = 0;
             CurrentTimer = 0;
         }

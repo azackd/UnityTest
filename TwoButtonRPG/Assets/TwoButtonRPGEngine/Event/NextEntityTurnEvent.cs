@@ -16,6 +16,7 @@ namespace Assets.TwoButtonRPGEngine.Event
 
         public override void ResolveEvent(out string message)
         {
+
             message = String.Format("{0}'s Turn!", SourceEntity.PublicName);
         }
     }

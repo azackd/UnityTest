@@ -6,6 +6,7 @@ using System.Text;
 using Assets.TwoButtonRPGEngine.Battle_Queue;
 using Assets.TwoButtonRPGEngine.Enemies;
 using Assets.TwoButtonRPGEngine.Helpers;
+using UnityEngine;
 
 namespace Assets.TwoButtonRPGEngine.DamageSystem
 {
@@ -22,7 +23,7 @@ namespace Assets.TwoButtonRPGEngine.DamageSystem
                 return new DamageResult(1);
             }
 
-            return new DamageResult(damageSource.BaseDamageFormula(Entity));
+            return new DamageResult(Mathf.Max(1, damageSource.BaseDamageFormula(Entity)));
         }
 
 

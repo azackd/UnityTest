@@ -74,15 +74,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ActionButtonControllerScript.cs" />
+    <Compile Include="Assets\CharacterSpriteDictionary.cs" />
     <Compile Include="Assets\Scripts\BattleQueueScript.cs" />
     <Compile Include="Assets\Scripts\CharacterPositionScript.cs" />
     <Compile Include="Assets\Scripts\CharacterScript.cs" />
     <Compile Include="Assets\Scripts\HeroScript.cs" />
+    <Compile Include="Assets\Scripts\MonsterScript.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\BattleModel.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\BattleQueue.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Battle Queue\ICombatEntity.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\BaseCharacter.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterCleric.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterFighter.cs" />
+    <Compile Include="Assets\TwoButtonRPGEngine\Characters\CharacterWizard.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\BaseDamageStrategy.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageResult.cs" />
     <Compile Include="Assets\TwoButtonRPGEngine\DamageSystem\DamageSource.cs" />

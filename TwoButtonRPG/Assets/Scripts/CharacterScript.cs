@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Assets.TwoButtonRPGEngine.Characters;
 using UnityEditor;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class CharacterScript : MonoBehaviour
 {
     public BaseCharacter CharacterModel;
@@ -18,9 +19,15 @@ public class CharacterScript : MonoBehaviour
     public int MaxMana;
     public int CurrentMana;
 
+    public SpriteRenderer SpriteRenderer;
+
     public TextMesh HealthTextMesh;
     public TextMesh ManaTextMesh;
     public TextMesh ManalessHealthMesh;
+
+    public SpriteRenderer TurnIndicator;
+
+    public CharacterSpriteDictionary SpriteDictionary;
 
 //	// Use this for initialization
 //	void Start () {
@@ -35,7 +42,15 @@ public class CharacterScript : MonoBehaviour
             MaxHealth = CharacterModel.MaxHealth;
             CurrentHealth = CharacterModel.Health;
 
+	        MaxMana = CharacterModel.MaxMana;
+	        CurrentMana = CharacterModel.MaxMana;
+
+	        SpriteRenderer.sprite =
+	            SpriteDictionary.CharacterSpriteValues.First(x => x.CharacterClass == CharacterModel.CharacterClass).Sprite;
             CharacterName = CharacterModel.PublicName;
+
+            // Customize Indicators
+            TurnIndicator.gameObject.SetActive(CurrentTurn);
 
             SetHealthAndManaText();
         }
@@ -43,6 +58,15 @@ public class CharacterScript : MonoBehaviour
 
     private void SetHealthAndManaText()
     {
+        if (CharacterModel == null)
+        {
+            TurnIndicator.gameObject.SetActive(false);
+            ManaTextMesh.gameObject.SetActive(false);
+            HealthTextMesh.gameObject.SetActive(false);
+            ManalessHealthMesh.gameObject.SetActive(false);
+        }
+
+
         if (HealthTextMesh != null)
         {
             HealthTextMesh.text = String.Format("{0}/{1}", CurrentHealth, MaxHealth);
